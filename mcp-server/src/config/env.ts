@@ -34,7 +34,7 @@ const envSchema = z.object({
   PORT: z.string().transform((v) => parseInt(v, 10)).default('3001'),
   ALLOWED_ORIGINS: z.string()
     .transform((str) => str.split(',').map((s) => s.trim().toLowerCase()))
-    .default('https://gtmcontaineranalyzer.com,http://localhost:5173'),
+    .default('https://gtmcontaineranalyzer.com,http://localhost:5173,https://gtm-container-analyzer-mcp.onrender.com'),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   ALLOWED_BASE_DIR: z.string().default('.'),
 });
