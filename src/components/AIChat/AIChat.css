@@ -480,8 +480,8 @@
 /* Chat Floating Toggle Button */
 .ai-chat-toggle-btn {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: 10px;
+  right: 10px;
   width: 56px;
   height: 56px;
   border-radius: 28px;
