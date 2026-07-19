@@ -561,7 +561,7 @@ export async function streamChatResponse(
         baseURL: 'https://openrouter.ai/api/v1',
         defaultHeaders: {
           'HTTP-Referer': 'https://gtmcontaineranalyzer.com',
-          'X-Title': 'GTM Insight Analyzer',
+          'X-Title': 'GTM Container Analyzer',
         }
       });
 
@@ -772,7 +772,7 @@ async function runOfflineRulesEngine(
   response += `> **Self-Healing Failover Active**\n`;
   response += `> The AI provider (${provider.toUpperCase()}) is currently unavailable due to a rate limit (429), quota issue, or connection failure:\n`;
   response += `> *${originalError.message || String(originalError)}*\n`;
-  response += `> GTM Insight has automatically switched to the **Local Offline Rules Engine** to answer your request.\n\n`;
+  response += `> GTM Container Analyzer has automatically switched to the **Local Offline Rules Engine** to answer your request.\n\n`;
 
   const pathMatch = message.match(/\/[a-zA-Z0-9_\-\/]+/);
   const path = pathMatch ? pathMatch[0] : null;
@@ -1231,7 +1231,7 @@ async function runOfflineRulesEngine(
       });
     }
   } else {
-    response += `## 💡 GTM Insight Offline Guide\n\n`;
+    response += `## 💡 GTM Container Analyzer Offline Guide\n\n`;
     response += `I am currently operating in **Offline Fallback Mode** due to rate limit constraints on the generative AI keys. Here are key tasks I can run for you based on your input:\n\n`;
     response += `1. **Tag Firing Analysis:** Ask *"Which tags fire on /checkout?"* or specify another path to map tag triggers.\n`;
     response += `2. **Naming Convention Audit:** Ask *"Audit my naming conventions"* to review styling compliance.\n`;

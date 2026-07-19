@@ -2,7 +2,7 @@ import http from 'http';
 import fs from 'fs';
 import path from 'path';
 
-const samplePath = '/Users/prathameshanabhavane/Documents/Pratham/GTM-Insight/public/sample-gtm-container.json';
+const samplePath = '/Users/prathameshanabhavane/Documents/Pratham/gtm-container-analyzer/public/sample-gtm-container.json';
 console.log(`Reading GTM container from ${samplePath} ...`);
 const containerJson = JSON.parse(fs.readFileSync(samplePath, 'utf8'));
 

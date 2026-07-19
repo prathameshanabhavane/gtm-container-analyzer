@@ -1,12 +1,12 @@
-# GTM Insight AI — Architecture Documentation
+# GTM Container Analyzer — Architecture Documentation
 
-This document describes the high-level system architecture, data routing flows, and component responsibilities of the GTM Insight AI analytics auditing system.
+This document describes the high-level system architecture, data routing flows, and component responsibilities of the GTM Container Analyzer analytics auditing system.
 
 ---
 
 ## 1. System Topology
 
-GTM Insight AI consists of four primary components designed to collaborate securely:
+GTM Container Analyzer consists of four primary components designed to collaborate securely:
 1. **Chrome Extension Debugger**: Monitors client-side user pages, intercepts GTM events (`dataLayer.push`), monitors tag network requests, and bridges events via a DOM channel.
 2. **React Web Dashboard**: Provides a client-side interface for parsing GTM JSON export files and visualizes container execution flows. Implements the streaming chat assistant UI.
 3. **Core Analysis Library (`@gtm-analyzer/core`)**: Zero-dependency library containing GTM schemas, auditing algorithms (naming, GA4 specifications, consent rules), and security sanitizers.
@@ -48,7 +48,7 @@ graph TB
 ## 2. Component Directory Layout
 
 ```
-GTM-Insight/
+gtm-container-analyzer/
 ├── extension/                  # Chrome Extension source
 ├── packages/
 │   └── core/                   # Shared TypeScript analysis engine

@@ -1,6 +1,6 @@
-# GTM Insight AI — AI Agent Design Document
+# GTM Container Analyzer — AI Agent Design Document
 
-This document explains the prompt engineering design, tool-calling architecture, and security design patterns used in the GTM Insight AI Agent.
+This document explains the prompt engineering design, tool-calling architecture, and security design patterns used in the GTM Container Analyzer Agent.
 
 ---
 

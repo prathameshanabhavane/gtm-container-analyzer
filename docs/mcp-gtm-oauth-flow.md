@@ -1,12 +1,12 @@
 # GTM Live API & Local Google OAuth Flow
 
-This document details the synchronized, database-free architecture that connects GTM Insight's Web Dashboard and local Model Context Protocol (MCP) clients (Cursor, Claude Desktop, VS Code) using a shared configuration file.
+This document details the synchronized, database-free architecture that connects GTM Container Analyzer's Web Dashboard and local Model Context Protocol (MCP) clients (Cursor, Claude Desktop, VS Code) using a shared configuration file.
 
 ---
 
 ## 1. Simplified Dashboard-Sync Flow
 
-Rather than implementing dynamic OAuth redirections and token exchange inside the CLI/MCP server, GTM Insight leverages the existing Google OAuth flow built into the visual web dashboard.
+Rather than implementing dynamic OAuth redirections and token exchange inside the CLI/MCP server, GTM Container Analyzer leverages the existing Google OAuth flow built into the visual web dashboard.
 
 ```mermaid
 sequenceDiagram
@@ -81,7 +81,7 @@ To align with **OWASP API Security Top 10** standards and ensure absolute data s
 
 ### 4.3 Safe File System Permissions (OWASP - Improper File Permissions)
 * **The Principle:** Secure local workspace files from unauthorized local system users.
-* **Implementation:** The file `~/.gtm-active-container.json` is initialized with strict POSIX user-only access permissions (`0600` or `-rw-------`). Only the local system user running the GTM Insight dashboard and IDE processes can read/write GTM data.
+* **Implementation:** The file `~/.gtm-active-container.json` is initialized with strict POSIX user-only access permissions (`0600` or `-rw-------`). Only the local system user running the GTM Container Analyzer dashboard and IDE processes can read/write GTM data.
 
 ### 4.4 Payload Validation & Limits (OWASP - Denial of Service / Injection)
 * **The Principle:** Prevent large files from crashing the node environment, and block injection payloads.

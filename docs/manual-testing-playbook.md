@@ -1,6 +1,6 @@
-# GTM Insight AI — Manual Verification Playbook
+# GTM Container Analyzer — Manual Verification Playbook
 
-This document contains a complete list of commands and procedures to manually launch, verify, and test every component of the GTM Insight AI ecosystem.
+This document contains a complete list of commands and procedures to manually launch, verify, and test every component of the GTM Container Analyzer ecosystem.
 
 ---
 
@@ -131,7 +131,7 @@ data: {"type":"done","content":""}
 Launch the stdio server process directly in your terminal to verify that it starts, accepts JSON RPC handshakes, and logs setup metrics.
 
 ```bash
-# Start Stdio server with GTM-Insight folder as base directory
+# Start Stdio server with gtm-container-analyzer folder as base directory
 cd mcp-server
 node dist/index-stdio.js ../
 ```
@@ -147,7 +147,7 @@ GTM MCP Server running over Stdio (Base allowed directory: ../)
 Launch the React PWA dashboard locally:
 
 ```bash
-# From GTM-Insight root directory
+# From gtm-container-analyzer root directory
 npm run dev
 ```
 

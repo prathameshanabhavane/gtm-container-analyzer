@@ -1,13 +1,13 @@
 # Render.com Blueprint Spec
 #
-# Allows one-click deployments of GTM Insight AI MCP Server.
+# Allows one-click deployments of GTM Container Analyzer MCP Server.
 # Usage: Connect this repository to Render and use this blueprint file.
 
 services:
   - type: web
-    name: gtm-insight-mcp
+    name: gtm-container-analyzer-mcp
     runtime: node
-    buildCommand: cd packages/core && npm ci && npm run build && cd ../../mcp-server && npm ci && npm run build
+    buildCommand: npm ci && npm run build && cd packages/core && npm ci && npm run build && cd ../../mcp-server && npm ci && npm run build
     startCommand: node mcp-server/dist/index-http.js
     envVars:
       - key: GEMINI_API_KEY

@@ -12,13 +12,13 @@ This guide explains how to connect the GTM Container Analyzer Model Context Prot
 When running locally, the MCP server communicates with your IDE via standard input/output streams (stdio). This transport is highly optimized, zero-latency, and runs as a local subprocess.
 
 ### Step 1.1: Build the Code
-1. Open a terminal in the root of the `GTM-Insight` directory.
+1. Open a terminal in the root of the `gtm-container-analyzer` directory.
 2. Build the shared packages and server:
    ```bash
    cd packages/core && npm run build
    cd ../../mcp-server && npm run build
    ```
-3. Locate the absolute path of your compiled stdio file: `/Users/YOUR_USERNAME/YOUR_PATH/GTM-Insight/mcp-server/dist/index-stdio.js`.
+3. Locate the absolute path of your compiled stdio file: `/Users/YOUR_USERNAME/YOUR_PATH/gtm-container-analyzer/mcp-server/dist/index-stdio.js`.
 
 ### Step 1.2: Connecting to Cursor (Local Stdio)
 1. Open Cursor and go to **Settings** (Gear icon in top right) > **Features** > **MCP**.
@@ -28,7 +28,7 @@ When running locally, the MCP server communicates with your IDE via standard inp
    * **Type**: `command`
    * **Command**: 
      ```bash
-     node /Users/YOUR_USERNAME/YOUR_PATH/GTM-Insight/mcp-server/dist/index-stdio.js "/Users/YOUR_USERNAME/YOUR_PATH/GTM-Insight"
+     node /Users/YOUR_USERNAME/YOUR_PATH/gtm-container-analyzer/mcp-server/dist/index-stdio.js "/Users/YOUR_USERNAME/YOUR_PATH/gtm-container-analyzer"
      ```
      *(Be sure to replace the paths with your actual project location).*
 4. Click **Save**. The status indicator will turn **Green (Connected)**.
@@ -43,8 +43,8 @@ When running locally, the MCP server communicates with your IDE via standard inp
        "gtm-analyzer-local": {
          "command": "node",
          "args": [
-           "/Users/YOUR_USERNAME/YOUR_PATH/GTM-Insight/mcp-server/dist/index-stdio.js",
-           "/Users/YOUR_USERNAME/YOUR_PATH/GTM-Insight"
+           "/Users/YOUR_USERNAME/YOUR_PATH/gtm-container-analyzer/mcp-server/dist/index-stdio.js",
+           "/Users/YOUR_USERNAME/YOUR_PATH/gtm-container-analyzer"
          ]
        }
      }

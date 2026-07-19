@@ -1,12 +1,12 @@
-# GTM Insight AI — Offline Resilience & Premium Audits Flow
+# GTM Container Analyzer — Offline Resilience & Premium Audits Flow
 
-This document details the self-healing failover mechanism, the Local Offline Rules Engine logic, and the user-centric interactive suggestion prompts that power GTM Insight AI.
+This document details the self-healing failover mechanism, the Local Offline Rules Engine logic, and the user-centric interactive suggestion prompts that power GTM Container Analyzer.
 
 ---
 
 ## 1. Request Flow & Try/Catch Failover
 
-To guarantee high availability when generative AI keys (Gemini, OpenAI, Groq) hit rate limits (429 errors) or when local Ollama endpoints are unresponsive, GTM Insight employs a zero-crash self-healing transport flow.
+To guarantee high availability when generative AI keys (Gemini, OpenAI, Groq) hit rate limits (429 errors) or when local Ollama endpoints are unresponsive, GTM Container Analyzer employs a zero-crash self-healing transport flow.
 
 ```mermaid
 sequenceDiagram

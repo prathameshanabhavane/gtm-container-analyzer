@@ -206,7 +206,7 @@ function loadSyncedContainer(): any {
   const syncPath = join(homedir(), '.gtm-active-container.json');
   if (!existsSync(syncPath)) {
     throw new Error(
-      `⚡ **GTM Insight: Active GTM Container Required**\n\n` +
+      `⚡ **GTM Container Analyzer: Active GTM Container Required**\n\n` +
       `To start auditing, you need to connect your Google Tag Manager container. Please choose one of the options below:\n\n` +
       `### 🔹 Option 1: Connect via Google OAuth (Recommended)\n` +
       `Click the button below to connect your container securely using Google OAuth:\n\n` +

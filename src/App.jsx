@@ -373,7 +373,7 @@ function App() {
         <button 
           onClick={() => setIsChatOpen(!isChatOpen)}
           className="ai-chat-toggle-btn"
-          title="Open GTM Insight AI Assistant"
+          title="Open GTM Container Analyzer Assistant"
         >
           <Sparkles size={22} />
         </button>
@@ -465,7 +465,7 @@ function App() {
         <button 
           onClick={() => setIsChatOpen(!isChatOpen)}
           className="ai-chat-toggle-btn"
-          title="Open GTM Insight AI Assistant"
+          title="Open GTM Container Analyzer Assistant"
         >
           <Sparkles size={22} />
         </button>
@@ -557,7 +557,7 @@ function App() {
         <button 
           onClick={() => setIsChatOpen(!isChatOpen)}
           className="ai-chat-toggle-btn"
-          title="Open GTM Insight AI Assistant"
+          title="Open GTM Container Analyzer Assistant"
         >
           <Sparkles size={22} />
         </button>
@@ -808,7 +808,7 @@ function App() {
         <button 
           onClick={() => setIsChatOpen(!isChatOpen)}
           className="ai-chat-toggle-btn"
-          title="Open GTM Insight AI Assistant"
+          title="Open GTM Container Analyzer Assistant"
         >
           <Sparkles size={22} />
         </button>

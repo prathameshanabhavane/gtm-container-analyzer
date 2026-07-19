@@ -327,7 +327,7 @@ export default function AIChat({
             <Sparkles size={18} />
           </div>
           <div>
-            <h4 className="ai-chat-title">GTM Insight AI</h4>
+            <h4 className="ai-chat-title">GTM Container Analyzer</h4>
             <p className="ai-chat-subtitle">GTM & GA4 Verification Agent</p>
           </div>
         </div>
@@ -392,7 +392,7 @@ export default function AIChat({
         {chatHistory.length === 0 && (
           <div className="ai-chat-welcome-panel">
             <Sparkles size={32} className="ai-chat-welcome-icon" />
-            <h5 className="ai-chat-welcome-title">Welcome to GTM Insight AI</h5>
+            <h5 className="ai-chat-welcome-title">Welcome to GTM Container Analyzer</h5>
             <p className="ai-chat-welcome-desc">
               I can audit your container setup, validate naming convention compliance, GA4 configurations, and crosscheck live debugger logs.
             </p>
