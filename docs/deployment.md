@@ -1,9 +1,9 @@
 # GTM Container Analyzer — Deployment Guide
 
-This guide details the steps to package and deploy both the **GTM Container Analyzer Frontend (React)** and **Backend (MCP Express Server)** as a **single web service** on **Koyeb** or **Render** for staging and showcase purposes.
+This guide details the steps to package and deploy both the **GTM Container Analyzer Frontend (React)** and **Backend (MCP Express Server)** as a **single web service** on **Render.com** for staging and showcase purposes.
 
 Serving everything from a single hosted instance provides several advantages:
-1. **Single Staging URL**: Users can access the app at one clean domain (e.g. `https://demo.gtmcontaineranalyzer.com` or a generic Koyeb/Render domain).
+1. **Single Staging URL**: Users can access the app at one clean domain (e.g. `https://demo.gtmcontaineranalyzer.com` or a generic Render domain).
 2. **Zero CORS Obstacles**: Same-domain hosting eliminates browser cross-origin checks completely.
 3. **Safe & Private**: The staging site will not be indexed by Google or other search engines.
 4. **No Risk to Production**: Your main website (`https://gtmcontaineranalyzer.com` on Vercel) remains 100% untouched.
@@ -15,7 +15,7 @@ Serving everything from a single hosted instance provides several advantages:
 ```mermaid
 graph TD
     User([User Browser])
-    Service[Single Koyeb / Render Service]
+    Service[Single Render Service]
     Gemini[Gemini API]
 
     User -->|1. Load Page /| Service
@@ -36,56 +36,59 @@ To ensure that your showcase environment is **never indexed by search engines**,
 The Express server has global middleware configured in [index-http.ts](file:///Users/prathameshanabhavane/Documents/Pratham/gtm-container-analyzer/mcp-server/src/index-http.ts) that injects the `X-Robots-Tag: noindex, nofollow` header into all responses. This instructs Googlebot and all other crawlers to completely ignore the server.
 
 ### 2.2 Frontend Staging
-For the unified server deployment on Koyeb/Render, the `X-Robots-Tag` header will apply to all frontend assets and index HTML pages as well, guaranteeing zero search engine indexing.
+For the unified server deployment on Render, the `X-Robots-Tag` header will apply to all frontend assets and index HTML pages as well, guaranteeing zero search engine indexing.
 
 ---
 
 ## 3. Step-by-Step Deployment Instructions
 
-### Step 3.1: Deploy Unified Backend Server
+### Step 3.1: Deploy Unified Backend Server on Render
 
-#### Option A: Koyeb (Recommended - Stays Active 24/7)
-1. Sign up for a free account on [Koyeb](https://www.koyeb.com/).
-2. Create a new App and choose **GitHub** as the deployment source.
-3. Select your `gtm-container-analyzer` repository.
-4. In the configuration:
-   * **App Name**: `gtm-container-analyzer-demo`
-   * **Builder**: Choose **Docker** (it will auto-detect the `/mcp-server/Dockerfile` at the root).
-   * **Ports**: Change the exposed port to `3001` (matching the Dockerfile configuration).
-   * **Environment Variables**: Add the following keys:
-     * `GEMINI_API_KEY`: *(Your Google AI Studio Gemini API Key)*
-     * `NODE_ENV`: `production`
-     * `PORT`: `3001`
-     * `ALLOWED_ORIGINS`: `https://demo.gtmcontaineranalyzer.com,https://gtm-container-analyzer-demo-xxxx.koyeb.app,http://localhost:5173` *(Replace the middle value with your specific Koyeb URL)*
-5. Click **Deploy**. Koyeb will build the Docker container and provide a free generic URL (e.g. `https://gtm-container-analyzer-demo-xxxx.koyeb.app`).
-6. *(Optional)* Add your custom subdomain `demo.gtmcontaineranalyzer.com` under Koyeb App settings and point your DNS CNAME to Koyeb.
+We have provided a preconfigured [render.yaml](file:///Users/prathameshanabhavane/Documents/Pratham/gtm-container-analyzer/render.yaml) blueprint specification in the root of the repository to automate the setup process.
 
-#### Option B: Render.com (Alternative - Sleeps after inactivity)
-1. Sign up or log into [Render](https://render.com/).
-2. Create a new **Web Service** from your linked Git repository.
-3. Select **Docker** as the environment.
-4. Add environment variables:
-   * `GEMINI_API_KEY`: *(Your Gemini Key)*
+#### Option A: Blueprint Deploy (Recommended - One-Click)
+1. Sign up or log into [Render.com](https://render.com/).
+2. In the dashboard, click **New +** (top right) and select **Blueprint**.
+3. Link your GitHub account and select your `gtm-container-analyzer` repository.
+4. Give your Blueprint Group a name (e.g., `gtm-container-analyzer-group`).
+5. Render will automatically read the `render.yaml` file. You will be prompted to enter:
+   * **`GEMINI_API_KEY`**: *(Your Google AI Studio Gemini API Key)*
+6. Click **Apply**. Render will automatically run the build steps (building frontend and backend) and launch the service.
+
+#### Option B: Manual Web Service Deploy (Alternative)
+1. Sign up or log into [Render.com](https://render.com/).
+2. Click **New +** and select **Web Service**.
+3. Connect your GitHub repository.
+4. Set the following configurations:
+   * **Name**: `gtm-container-analyzer-mcp`
+   * **Runtime**: `Node`
+   * **Build Command**: `npm ci && npm run build && cd packages/core && npm ci && npm run build && cd ../../mcp-server && npm ci && npm run build`
+   * **Start Command**: `node mcp-server/dist/index-http.js`
+5. Add the following **Environment Variables** under the service settings:
+   * `GEMINI_API_KEY`: *(Your Gemini API Key)*
    * `NODE_ENV`: `production`
    * `PORT`: `3001`
-   * `ALLOWED_ORIGINS`: `https://demo.gtmcontaineranalyzer.com,https://gtm-container-analyzer-api.onrender.com,http://localhost:5173`
-5. Deploy and get the Render URL.
-6. **Crucial Step (Keep-Alive)**: Setup a free uptime monitor (like [cron-job.org](https://cron-job.org/)) pointing to `https://YOUR-APP.onrender.com/health` every 10 minutes to prevent the container from falling asleep.
+   * `ALLOWED_ORIGINS`: `https://demo.gtmcontaineranalyzer.com,https://YOUR-APP-NAME.onrender.com,http://localhost:5173` *(Replace the middle value with your specific Render app URL once generated)*
+6. Click **Deploy Web Service**.
+
+#### Crucial Step (Keep-Alive for Free Tier)
+Because Render's free tier services spin down after 15 minutes of inactivity, setup a free uptime monitor (like [cron-job.org](https://cron-job.org/)) pointing to `https://YOUR-APP-NAME.onrender.com/health` every 10 minutes to prevent the container from falling asleep.
 
 ---
 
 ### Step 3.2: Register the Staging URL in Google Cloud Console
 
-This ensures Google OAuth consent succeeds on the staging domain.
+This ensures Google OAuth consent succeeds on your hosted staging domain.
 
 1. Open the [Google Cloud Console Credentials Screen](https://console.cloud.google.com/apis/credentials).
 2. Edit your active **Web Client ID**.
 3. Under **Authorized JavaScript origins**, click **+ Add URI** and enter:
-   * `https://demo.gtmcontaineranalyzer.com` (or your generic Koyeb/Render URL like `https://gtm-container-analyzer-demo-xxxx.koyeb.app`).
+   * `https://demo.gtmcontaineranalyzer.com` (or your generic Render URL like `https://YOUR-APP-NAME.onrender.com`).
 4. Click **Save**.
 5. Wait 5 minutes for Google to sync the changes.
 
 ---
+
 
 ## 4. Local Testing Before Deployment
 
