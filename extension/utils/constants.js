@@ -21,8 +21,8 @@ const URLS = {
     live: 'http://localhost:5173/live'
   },
   production: {
-    dashboard: 'https://gtmcontaineranalyzer.com',
-    live: 'https://gtmcontaineranalyzer.com/live'
+    dashboard: 'https://gtm-container-analyzer-mcp.onrender.com',
+    live: 'https://gtm-container-analyzer-mcp.onrender.com/live'
   }
 };
 

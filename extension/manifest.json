@@ -49,7 +49,11 @@
       "all_frames": false
     },
     {
-      "matches": ["http://localhost:5173/*", "https://gtmcontaineranalyzer.com/*"],
+      "matches": [
+        "http://localhost:5173/*",
+        "https://gtmcontaineranalyzer.com/*",
+        "https://gtm-container-analyzer-mcp.onrender.com/*"
+      ],
       "js": ["content/dashboard-bridge.js"],
       "run_at": "document_start",
       "all_frames": false

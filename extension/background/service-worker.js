@@ -47,7 +47,8 @@ const SECURITY = Object.freeze({
   ALLOWED_DASHBOARD_ORIGINS: Object.freeze([
     'http://localhost:5173',
     'https://gtmcontaineranalyzer.com',
-    'https://www.gtmcontaineranalyzer.com'
+    'https://www.gtmcontaineranalyzer.com',
+    'https://gtm-container-analyzer-mcp.onrender.com'
   ]),
 });
 
@@ -586,7 +587,8 @@ async function handleMessage(message, sender, sendResponse) {
             // Find all dashboard tabs (both localhost and production)
             const dashboardPatterns = [
               'http://localhost:5173/live*',
-              'https://gtmcontaineranalyzer.com/live*'
+              'https://gtmcontaineranalyzer.com/live*',
+              'https://gtm-container-analyzer-mcp.onrender.com/live*'
             ];
 
             for (const pattern of dashboardPatterns) {

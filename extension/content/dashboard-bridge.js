@@ -23,7 +23,8 @@
     ALLOWED_ORIGINS: Object.freeze([
       'http://localhost:5173',
       'https://gtmcontaineranalyzer.com',
-      'https://www.gtmcontaineranalyzer.com'
+      'https://www.gtmcontaineranalyzer.com',
+      'https://gtm-container-analyzer-mcp.onrender.com'
     ]),
     // SECURITY: Block any origin containing these suspicious patterns
     BLOCKED_PATTERNS: Object.freeze([
