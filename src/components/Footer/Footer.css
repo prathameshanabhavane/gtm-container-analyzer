@@ -1,0 +1,436 @@
+/* ============================================
+   Premium Footer - Elegant & Luxurious Design
+   ============================================ */
+
+.premium-footer {
+  position: relative;
+  background: linear-gradient(180deg, 
+    transparent 0%, 
+    rgba(15, 17, 23, 0.5) 20%,
+    rgba(15, 17, 23, 0.95) 100%
+  );
+  padding: 0;
+  margin-top: 60px;
+}
+
+/* Glowing Top Border */
+.footer-glow-line {
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(56, 189, 248, 0.1) 15%,
+    rgba(56, 189, 248, 0.4) 50%,
+    rgba(56, 189, 248, 0.1) 85%,
+    transparent 100%
+  );
+  margin-bottom: 0;
+}
+
+.footer-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 48px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Brand Section */
+.footer-brand {
+  text-align: center;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.logo-icon {
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4));
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.footer-logo:hover .logo-icon {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.6));
+}
+
+.logo-text {
+  font-size: 18px;
+  font-weight: 600;
+  background: linear-gradient(135deg, 
+    var(--text-primary, #f1f3f5) 0%, 
+    rgba(241, 243, 245, 0.7) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.3px;
+}
+
+.footer-tagline {
+  font-size: 13px;
+  color: var(--text-muted, #6b7280);
+  font-style: italic;
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Navigation */
+.footer-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.footer-link {
+  font-size: 13px;
+  color: var(--text-secondary, #9ca3af);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.footer-link:hover {
+  color: var(--accent-cyan, #38bdf8);
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.footer-link.active {
+  color: var(--text-muted, #6b7280);
+  cursor: default;
+}
+
+.footer-divider {
+  color: var(--text-muted, #6b7280);
+  opacity: 0.4;
+  font-size: 14px;
+}
+
+/* Trust Badges */
+.footer-trust {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted, #6b7280);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 6px 12px;
+  background: rgba(56, 189, 248, 0.05);
+  border: 1px solid rgba(56, 189, 248, 0.1);
+  border-radius: 20px;
+}
+
+.trust-badge svg {
+  color: var(--accent-cyan, #38bdf8);
+  opacity: 0.7;
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  background: #34d399;
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 1; 
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4);
+  }
+  50% { 
+    opacity: 0.6;
+    box-shadow: 0 0 0 4px rgba(52, 211, 153, 0);
+  }
+}
+
+/* Bottom Section */
+.footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  width: 100%;
+  max-width: 600px;
+}
+
+.footer-copyright {
+  font-size: 12px;
+  color: var(--text-muted, #6b7280);
+  margin: 0 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.made-with {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.7;
+}
+
+.dot-separator {
+  margin: 0 4px;
+}
+
+.heart-icon {
+  color: #f472b6;
+  fill: #f472b6;
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* Support/Donation Section - Premium with decorative lines */
+.footer-support {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0 24px;
+  gap: 16px;
+  width: 100%;
+}
+
+/* Decorative lines on sides */
+.footer-support::before,
+.footer-support::after {
+  content: '';
+  flex: 1;
+  max-width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 200, 0, 0.25),
+    rgba(255, 200, 0, 0.15)
+  );
+}
+
+.footer-support::after {
+  background: linear-gradient(270deg,
+    transparent,
+    rgba(255, 200, 0, 0.25),
+    rgba(255, 200, 0, 0.15)
+  );
+}
+
+/* Disclaimer */
+.footer-disclaimer {
+  position: relative;
+  padding-top: 16px;
+}
+
+.footer-disclaimer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(56, 189, 248, 0.2) 50%,
+    transparent 100%
+  );
+}
+
+.footer-disclaimer p {
+  font-size: 10px;
+  color: var(--text-muted, #6b7280);
+  opacity: 0.5;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.footer-disclaimer .trademark {
+  color: var(--text-secondary, #9ca3af);
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 600px) {
+  .footer-container {
+    padding: 36px 20px 24px;
+    gap: 20px;
+  }
+  
+  .footer-logo {
+    gap: 8px;
+  }
+  
+  .logo-text {
+    font-size: 16px;
+  }
+  
+  .footer-tagline {
+    font-size: 12px;
+  }
+  
+  .footer-nav {
+    gap: 4px;
+  }
+  
+  .footer-link {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+  
+  .footer-trust {
+    gap: 12px;
+  }
+  
+  .trust-badge {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
+  
+  .footer-support {
+    padding: 16px 0 18px;
+    gap: 12px;
+  }
+  
+  .footer-support::before,
+  .footer-support::after {
+    max-width: 40px;
+  }
+  
+  .footer-copyright {
+    font-size: 11px;
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .dot-separator {
+    display: none;
+  }
+  
+  .footer-disclaimer p {
+    font-size: 9px;
+  }
+}
+
+/* ============================================
+   Dark/Light Theme Support
+   ============================================ */
+
+[data-theme="light"] .premium-footer {
+  background: linear-gradient(180deg, 
+    transparent 0%, 
+    rgba(248, 250, 252, 0.5) 20%,
+    rgba(248, 250, 252, 0.98) 100%
+  );
+}
+
+[data-theme="light"] .footer-glow-line {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(56, 189, 248, 0.15) 15%,
+    rgba(56, 189, 248, 0.5) 50%,
+    rgba(56, 189, 248, 0.15) 85%,
+    transparent 100%
+  );
+}
+
+[data-theme="light"] .logo-text {
+  background: linear-gradient(135deg, 
+    #1e293b 0%, 
+    #475569 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="light"] .footer-tagline {
+  color: #64748b;
+}
+
+[data-theme="light"] .footer-link {
+  color: #64748b;
+}
+
+[data-theme="light"] .footer-link:hover {
+  color: #0284c7;
+  background: rgba(2, 132, 199, 0.08);
+}
+
+[data-theme="light"] .footer-divider {
+  color: #94a3b8;
+}
+
+[data-theme="light"] .footer-bottom {
+  border-top-color: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .footer-copyright {
+  color: #64748b;
+}
+
+[data-theme="light"] .made-with {
+  color: #64748b;
+}
+
+[data-theme="light"] .trust-badge {
+  background: rgba(2, 132, 199, 0.06);
+  border-color: rgba(2, 132, 199, 0.12);
+  color: #475569;
+}
+
+[data-theme="light"] .trust-badge svg {
+  color: #0284c7;
+}
+
+[data-theme="light"] .footer-disclaimer p {
+  color: #64748b;
+}
+
+[data-theme="light"] .footer-disclaimer .trademark {
+  color: #475569;
+}
+
+/* Light theme decorative lines */
+[data-theme="light"] .footer-support::before {
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(180, 130, 0, 0.2),
+    rgba(180, 130, 0, 0.12)
+  );
+}
+
+[data-theme="light"] .footer-support::after {
+  background: linear-gradient(270deg,
+    transparent,
+    rgba(180, 130, 0, 0.2),
+    rgba(180, 130, 0, 0.12)
+  );
+}

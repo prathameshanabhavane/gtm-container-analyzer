@@ -1,0 +1,7 @@
+# robots.txt for GTM Container Analyzer
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://gtmcontaineranalyzer.com/sitemap.xml
+

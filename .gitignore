@@ -1,0 +1,21 @@
+# Node.js dependencies
+node_modules/
+mcp-server/node_modules/
+packages/core/node_modules/
+
+# Production build outputs
+dist/
+mcp-server/dist/
+packages/core/dist/
+
+# Environment files and API keys (secrets)
+.env
+mcp-server/.env
+.env.local
+
+# OS metadata
+.DS_Store
+
+# Editor configurations
+.vscode/
+.idea/

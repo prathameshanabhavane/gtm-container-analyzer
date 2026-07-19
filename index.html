@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Security headers are set via HTTP headers in vercel.json for production -->
+    <!-- This ensures proper CSP without unsafe-inline in script-src -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#0f1117" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="GTM Analyzer" />
+    <link rel="apple-touch-icon" href="/pwa-192x192.png" />
+    <link rel="mask-icon" href="/favicon.svg" color="#38bdf8" />
+    
+    <!-- Primary Meta Tags -->
+    <title>GTM Container Analyzer - Analyze Your Google Tag Manager Container</title>
+    <meta name="title" content="GTM Container Analyzer - Analyze Your Google Tag Manager Container" />
+    <meta name="description" content="Free GTM Container Analyzer tool to analyze, audit, and visualize your Google Tag Manager container. Deep search tags, triggers, variables. Export to CSV. No data sent to server - 100% client-side privacy." />
+    
+    <!-- SEO Keywords -->
+    <meta name="keywords" content="GTM container analyzer, GTM analyzer, GTM analysis, Google Tag Manager analyzer, GTM audit tool, GTM container analysis, tag manager audit, GTM visualization, GTM tag checker, GTM debugger, GTM inspector, analyze GTM, analyse GTM, GTM analyser, tag analyzer, trigger analyzer, variable analyzer, GTM export analyzer, GTM JSON analyzer, GTM container viewer, GTM tag audit, GTM health check, marketing tag analyzer, conversion tracking analyzer, pixel analyzer, GA4 analyzer, Google Analytics analyzer, Facebook pixel analyzer, TikTok pixel analyzer, Snapchat pixel analyzer, Microsoft Clarity analyzer, Google Ads conversion analyzer, GTM search tool, GTM filter tool, GTM CSV export, free GTM tool, online GTM analyzer, GTM container export analyzer, GTM tag manager tool, digital marketing tool, analytics audit tool, tag management analysis, container analyzer, GTM comparison, GTM container comparison, compare GTM containers, GTM diff tool, GTM version comparison, compare tag manager, GTM migration tool, GTM container diff" />
+    
+    <!-- Author & Application -->
+    <meta name="author" content="GTM Container Analyzer" />
+    <meta name="application-name" content="GTM Container Analyzer" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="rating" content="General" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://gtmcontaineranalyzer.com/" />
+    <meta property="og:title" content="GTM Container Analyzer - Analyze Your Google Tag Manager" />
+    <meta property="og:description" content="Free tool to analyze, audit, and visualize your Google Tag Manager container. Deep search tags, triggers, variables. Export to CSV. 100% privacy - no data leaves your browser." />
+    <meta property="og:image" content="https://gtmcontaineranalyzer.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="GTM Container Analyzer - Free Google Tag Manager Analysis Tool" />
+    <meta property="og:site_name" content="GTM Container Analyzer" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://gtmcontaineranalyzer.com/" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://gtmcontaineranalyzer.com/" />
+    <meta name="twitter:title" content="GTM Container Analyzer - Analyze Your Google Tag Manager" />
+    <meta name="twitter:description" content="Free tool to analyze, audit, and visualize your GTM container. Deep search, CSV export. 100% client-side privacy." />
+    <meta name="twitter:image" content="https://gtmcontaineranalyzer.com/og-image.png" />
+    <meta name="twitter:image:alt" content="GTM Container Analyzer - Free Google Tag Manager Analysis Tool" />
+    
+    <!-- Additional SEO -->
+    <meta name="subject" content="Google Tag Manager Analysis Tool" />
+    <meta name="topic" content="GTM Analysis, Tag Management, Digital Marketing, Analytics" />
+    <meta name="summary" content="Analyze and audit your Google Tag Manager containers with deep search, filtering, and CSV export capabilities." />
+    <meta name="classification" content="Business, Marketing, Analytics, Developer Tools" />
+    <meta name="category" content="Marketing Tools" />
+    <meta name="coverage" content="Worldwide" />
+    <meta name="distribution" content="Global" />
+    
+    <!-- Structured Data for Rich Results -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "GTM Container Analyzer",
+      "url": "https://gtmcontaineranalyzer.com/",
+      "alternateName": ["Google Tag Manager Analyzer", "GTM Audit Tool", "GTM Analyser", "Tag Manager Analysis Tool", "Container Analyzer"],
+      "description": "Free tool to analyze, audit, and visualize Google Tag Manager containers. Features deep search across tags, triggers, and variables with CSV export.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript. Works on Chrome, Firefox, Safari, Edge.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "GTM Container Analysis",
+        "GTM Container Comparison",
+        "Tag Audit",
+        "Trigger Analysis",
+        "Variable Inspection",
+        "Deep Global Search",
+        "CSV Export",
+        "Paused Tag Detection",
+        "Condition Type Filtering",
+        "100% Client-side Processing",
+        "Privacy-focused"
+      ],
+      "keywords": "GTM analyzer, GTM analysis, Google Tag Manager, tag audit, trigger analyzer, variable analyzer, marketing analytics"
+    }
+    </script>
+    
+    <!-- WebSite Schema for Google Search Site Name -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "GTM Container Analyzer",
+      "alternateName": ["GTM Analyzer", "Google Tag Manager Analyzer"],
+      "url": "https://gtmcontaineranalyzer.com/"
+    }
+    </script>
+    
+    <!-- Organization Schema for Brand Identity -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "GTM Container Analyzer",
+      "url": "https://gtmcontaineranalyzer.com/",
+      "logo": "https://gtmcontaineranalyzer.com/logo.png",
+      "sameAs": []
+    }
+    </script>
+    
+    <!-- GTM Container Comparison Tool Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "GTM Container Comparison Tool",
+      "url": "https://gtmcontaineranalyzer.com/compare",
+      "alternateName": ["GTM Comparison Tool", "GTM Container Diff", "GTM Version Compare", "Google Tag Manager Comparison"],
+      "description": "Free tool to compare two Google Tag Manager containers side-by-side. Identify changes, track modifications, and find differences between GTM versions.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript. Works on Chrome, Firefox, Safari, Edge.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "GTM Container Comparison",
+        "Side-by-side Diff View",
+        "Tag Changes Detection",
+        "Trigger Changes Detection",
+        "Variable Changes Detection",
+        "Google Account Integration",
+        "JSON File Upload Support",
+        "Added/Removed/Modified Tracking",
+        "100% Client-side Processing",
+        "Privacy-focused"
+      ],
+      "keywords": "GTM comparison, GTM diff, compare GTM containers, Google Tag Manager comparison, container comparison"
+    }
+    </script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+

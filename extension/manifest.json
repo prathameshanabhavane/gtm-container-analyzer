@@ -1,0 +1,66 @@
+{
+  "manifest_version": 3,
+  "name": "GTM Container Analyzer - Tag+Pixel Debugger",
+  "version": "1.0.7",
+  "description": "Debug GA4, GTM, Google Ads, Meta Pixel, LinkedIn, TikTok & 70+ marketing tags in real-time. Works with GTM Container Analyzer dashboard. 100% private - all data stays in your browser.",
+  
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  
+  "permissions": [
+    "storage",
+    "activeTab",
+    "tabs",
+    "scripting"
+  ],
+  
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; style-src 'self' 'unsafe-inline';"
+  },
+  
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "GTM Container Analyzer - Tag+Pixel Debugger",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content/capture.js"],
+      "run_at": "document_start",
+      "all_frames": false
+    },
+    {
+      "matches": ["http://localhost:5173/*", "https://gtmcontaineranalyzer.com/*"],
+      "js": ["content/dashboard-bridge.js"],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ],
+  
+  "web_accessible_resources": [
+    {
+      "resources": ["injected/gtm-interceptor.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
+
