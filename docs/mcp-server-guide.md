@@ -96,9 +96,9 @@ If you are running the Express server locally on your machine (e.g. for testing 
 When deployed to a cloud platform like Render, your GTM Container Analyzer MCP Server runs over HTTP via Server-Sent Events (SSE). Anyone can connect directly to your hosted API endpoints without running a local node script!
 
 ### Step 3.1: Exposed Cloud Endpoints
-Once your unified deployment is active (e.g. at `https://YOUR-APP-NAME.onrender.com`), you get the following public paths:
-* **Showcase Dashboard**: `https://YOUR-APP-NAME.onrender.com/`
-* **Remote MCP SSE Endpoint**: `https://YOUR-APP-NAME.onrender.com/mcp` *(Alternative fallback: `/sse`)*
+Once your unified deployment is active (e.g. at `https://gtm-container-analyzer-mcp.onrender.com`), you get the following public paths:
+* **Showcase Dashboard**: `https://gtm-container-analyzer-mcp.onrender.com/`
+* **Remote MCP SSE Endpoint**: `https://gtm-container-analyzer-mcp.onrender.com/mcp` *(Alternative fallback: `/sse`)*
 
 ### Step 3.2: Connecting to Cursor (Remote SSE)
 1. Open Cursor and go to **Settings** > **Features** > **MCP**.
@@ -106,7 +106,7 @@ Once your unified deployment is active (e.g. at `https://YOUR-APP-NAME.onrender.
 3. Configure the following fields:
    * **Name**: `gtm-container-analyzer-remote`
    * **Type**: `SSE`
-   * **URL**: `https://YOUR-APP-NAME.onrender.com/mcp`
+   * **URL**: `https://gtm-container-analyzer-mcp.onrender.com/mcp`
 4. Click **Save**. The status indicator will turn **Green (Connected)**.
 
 ### Step 3.3: Connecting to Claude Desktop (Remote SSE)
@@ -116,7 +116,7 @@ Once your unified deployment is active (e.g. at `https://YOUR-APP-NAME.onrender.
    {
      "mcpServers": {
        "gtm-analyzer-remote": {
-         "url": "https://YOUR-APP-NAME.onrender.com/mcp"
+         "url": "https://gtm-container-analyzer-mcp.onrender.com/mcp"
        }
      }
    }
@@ -134,7 +134,7 @@ If you use popular AI coding extensions in VS Code like **Cline** or **Roo Code*
    {
      "mcpServers": {
        "gtm-analyzer-remote": {
-         "url": "https://YOUR-APP-NAME.onrender.com/mcp",
+         "url": "https://gtm-container-analyzer-mcp.onrender.com/mcp",
          "disabled": false
        }
      }
@@ -154,7 +154,7 @@ Windsurf supports MCP servers natively.
    {
      "mcpServers": {
        "gtm-analyzer-remote": {
-         "serverUrl": "https://YOUR-APP-NAME.onrender.com/mcp",
+         "serverUrl": "https://gtm-container-analyzer-mcp.onrender.com/mcp",
          "transport": "sse"
        }
      }
@@ -179,7 +179,7 @@ Because Zed expects stdio frames, it does not support raw SSE URLs natively in `
          "args": [
            "-y",
            "mcp-remote",
-           "https://YOUR-APP-NAME.onrender.com/mcp"
+           "https://gtm-container-analyzer-mcp.onrender.com/mcp"
          ]
        }
      }
