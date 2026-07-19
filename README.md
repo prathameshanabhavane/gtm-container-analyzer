@@ -1,464 +1,329 @@
-# GTM Container Analyzer
+# GTM Container Analyzer 2.0
 
 ### *Clarity for your Google Tag Manager*
 
-A powerful React-based dashboard for visualizing, analyzing, and understanding your Google Tag Manager (GTM) container exports. GTM Container Analyzer dynamically processes GTM JSON data and reveals hidden insights about your tags, triggers, and variables.
+Analyze containers in one place, verify what tags fire live with a Chrome extension, and ask an AI agent (or MCP tools in Cursor/Claude) what’s wrong and how to fix it — with full GTM context.
 
-![GTM Container Analyzer](https://img.shields.io/badge/GTM-Analyzer-38bdf8?style=for-the-badge)
+**Live app:** [gtmcontaineranalyzer.com](https://gtmcontaineranalyzer.com/)  
+**AI + MCP (hosted):** [gtm-container-analyzer-mcp.onrender.com](https://gtm-container-analyzer-mcp.onrender.com/)  
+**Remote MCP:** `https://gtm-container-analyzer-mcp.onrender.com/mcp`
+
+![GTM](https://img.shields.io/badge/GTM-Analyzer-38bdf8?style=for-the-badge)
 ![React](https://img.shields.io/badge/React-18-61dafb?style=flat-square)
-![Vite](https://img.shields.io/badge/Vite-5-646cff?style=flat-square)
-![PWA](https://img.shields.io/badge/PWA-Ready-5A0FC8?style=flat-square)
+![MCP](https://img.shields.io/badge/MCP-Ready-black?style=flat-square)
+![Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?style=flat-square)
 
 ---
 
-## 🚀 Quick Start
+## What it is
 
-```bash
-# Navigate to dashboard directory
-cd dashboard
+One product, three surfaces:
 
-# Install dependencies
-npm install
+| Surface | What it does |
+|---------|----------------|
+| **Web dashboard** | Upload/connect a GTM container — overview, search, cleanup, compare, CSV export |
+| **Chrome extension** | Live `dataLayer` + marketing pixel capture (per tab). See what fires and when |
+| **AI agent + MCP** | Ask why / what / how with real audits — in the app chat or from Cursor/Claude/Codex |
 
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-```
-
-Open http://localhost:5173 in your browser.
+Flow: **analyze → verify live → ask & fix with AI + MCP**
 
 ---
 
-## ✨ Features
+## Architecture
 
-| Feature | Description |
-|---------|-------------|
-| 📊 **Dashboard** | Overview stats, pie chart, tag distribution |
-| 🏷️ **Tags View** | Dependency tree, all tags with filters |
-| ⚡ **Triggers Page** | All triggers with conditions & usage |
-| 📦 **Variables Page** | All variables with usage tracking |
-| 🧹 **Cleanup Panel** | Detect duplicates, unused vars, orphan triggers |
-| 🔍 **Global Search** | Deep search across tags, triggers, variables |
-| 🔗 **Connect GTM** | OAuth integration to fetch directly from GTM |
-| 🌓 **Dark/Light Theme** | Toggle between themes |
-| 📱 **PWA Support** | Install as desktop/mobile app |
-| 📥 **CSV Export** | Export filtered or all tags |
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         Browser                                  │
+│  Chrome Extension          React Dashboard         AI Chat UI    │
+│  (dataLayer + pixels)  →   (analyze /live)    →   (SSE stream)   │
+└──────────────┬─────────────────────┬──────────────────┬─────────┘
+               │ postMessage         │ IndexedDB        │ POST /api/chat
+               │                     │ optional sync    │
+               ▼                     ▼                  ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                     MCP Server (Node / Express)                   │
+│  HTTP: /mcp · /api/chat · /api/auth/sync · /health                │
+│  Stdio: Cursor / Claude Desktop / Codex (local)                   │
+│  AI: Gemini (default), OpenAI, Groq, OpenRouter, Ollama           │
+└──────────────────────────────┬──────────────────────────────────┘
+                               │
+                               ▼
+┌─────────────────────────────────────────────────────────────────┐
+│              @gtm-analyzer/core (shared TypeScript engine)        │
+│  parse → audit (naming, GA4, performance, cleanup) → health score │
+│  compare · search · correlate live events · CSV · sanitizer       │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Components
+
+1. **`src/`** — React + Vite PWA dashboard (client-side GTM analysis UI)
+2. **`extension/`** — Manifest V3 Chrome extension (live capture + dashboard bridge)
+3. **`packages/core/`** — Pure TypeScript analysis library used by the MCP/AI layer
+4. **`mcp-server/`** — Dual MCP transport (stdio + HTTP/SSE) + multi-provider AI agent
+
+More detail: [`docs/architecture.md`](docs/architecture.md)
 
 ---
 
-## 📤 How It Works
+## Features
 
-**Two ways to load data:**
+### Dashboard
+- Overview stats & tag distribution
+- Tags / triggers / variables views with filters
+- Dependency tree, global search, CSV export
+- Cleanup: duplicates, unused variables, orphan triggers
+- Container compare (two exports or two GTM API versions)
+- Connect GTM via Google OAuth (readonly)
+- Dark / light theme, PWA install
 
-### Option 1: Upload JSON File
-```
-1. Open GTM → tagmanager.google.com
-2. Admin → Export Container
-3. Download JSON file
-4. Upload to GTM Container Analyzer
-```
+### Chrome extension
+- Intercepts `dataLayer.push` and marketing network requests
+- Supports GA4, Google Ads, Meta, LinkedIn, TikTok, Clarity, Hotjar, and many more
+- **Per-tab isolation** so live data doesn’t mix across tabs
+- One-click open into dashboard `/live` for deeper analysis
+- Capture stays local in `chrome.storage` (no remote upload of live telemetry)
 
-### Option 2: Connect GTM (OAuth)
-```
-1. Click "Connect GTM" button
+### AI agent
+- In-app chat with full container JSON context
+- Tool-calling loop over the same audits as MCP
+- Step-by-step GTM fix guidance (what / why / how)
+- Offline rules fallback if the model provider fails
+
+### MCP server
+Tools available to IDEs and the agent:
+
+| Tool | Purpose |
+|------|---------|
+| `analyze_container` | Health score + aggregated issues |
+| `audit_naming` | Naming convention checks |
+| `audit_ga4` | GA4 event name / param rules |
+| `audit_performance` | Size, early-firing HTML, templates, CMP |
+| `find_unused_items` | Unused variables |
+| `find_duplicates` | Duplicate tags |
+| `get_recommendations` | Prioritized fix list |
+| `get_container_details` | Structured tags / triggers / variables |
+| `compare_containers` | Diff two exports |
+| `correlate_live_events` | Configured events vs live extension counts |
+| `get_connection_status` | Synced container status + connect guide |
+
+---
+
+## How it works
+
+### 1. Load a container (dashboard)
+
+**Option A — Upload JSON**
+1. GTM → Admin → Export Container
+2. Upload the JSON on the home page
+
+**Option B — Connect GTM (OAuth)**
+1. Click **Connect GTM**
 2. Sign in with Google
-3. Select Account → Container → Version
-4. Data loads automatically
+3. Pick Account → Container → live version
+
+Data is validated/sanitized, processed, saved to **IndexedDB**, and (optionally) synced to the MCP server via `POST /api/auth/sync` so Cursor tools see the same container.
+
+### 2. Analyze in the UI
+
+Routes:
+
+| Path | View |
+|------|------|
+| `/` | Upload / connect |
+| `/analyze` | Dashboard overview + cleanup + tags table |
+| `/tags` | Dependency tree |
+| `/triggers` | Triggers list |
+| `/variables` | Variables list |
+| `/compare` | Diff two containers |
+| `/live` | Live extension capture UI |
+
+### 3. Verify live (extension)
+
+```
+Page (main world)          Content script           Service worker
+gtm-interceptor.js    →    capture.js          →    chrome.storage
+  patch dataLayer            classify events          per-tab / session keys
+  patch fetch/XHR            domain / tab lock
+        │
+        ▼
+dashboard-bridge.js  →  postMessage  →  /live page
 ```
 
-### Data Flow
-```
-┌─────────────────────────────────────────────────────────────┐
-│   Upload JSON  OR  Connect GTM (OAuth)                       │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│              Security Validation (XSS Protection)            │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    Process GTM Data                          │
-│              (Tags, Triggers, Variables)                     │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│            Save to IndexedDB (Local Persistence)             │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    Render Dashboard                          │
-└─────────────────────────────────────────────────────────────┘
-```
+### 4. Ask & fix (AI + MCP)
+
+- **In app:** AI Chat → `POST /api/chat` (SSE) with `containerJson` + optional `liveEvents`
+- **In Cursor / Claude:** connect MCP (remote URL or local stdio) → call audit tools
+- Analysis logic runs in `@gtm-analyzer/core` — models don’t invent container facts without tools
 
 ---
 
-## 🏗️ Architecture
-
-### Design Pattern: Feature-Based Modular
+## Project structure
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                        App.jsx                               │
-│                    (Router + Layout)                         │
-└─────────────────────┬───────────────────────────────────────┘
-                      │
-        ┌─────────────┼─────────────┐
-        ▼             ▼             ▼
-   ┌─────────┐  ┌─────────┐  ┌─────────┐
-   │  Hooks  │  │  Data   │  │Components│
-   │ (State) │  │ (Logic) │  │  (UI)   │
-   └────┬────┘  └────┬────┘  └────┬────┘
-        │            │            │
-        └────────────┼────────────┘
-                     ▼
-              ┌───────────┐
-              │  Utils    │
-              │(Helpers)  │
-              └───────────┘
-```
-
----
-
-## 📁 Project Structure
-
-```
-dashboard/
-├── public/
-│   ├── favicon.svg
-│   ├── robots.txt
-│   └── sitemap.xml
-│
-├── src/
-│   ├── components/                    # UI Components (Feature folders)
-│   │   ├── Header/
-│   │   │   ├── Header.jsx
-│   │   │   └── index.js
-│   │   ├── HomePage/
-│   │   │   ├── HomePage.jsx
-│   │   │   ├── HomePage.css
-│   │   │   └── index.js
-│   │   ├── ConnectGTM/                # GTM OAuth connection
-│   │   ├── DependencyTree/            # Tag dependency visualization
-│   │   ├── TriggersList/              # Triggers page
-│   │   ├── VariablesList/             # Variables page
-│   │   ├── cleanup/                   # Cleanup panel components
-│   │   │   ├── CleanupPanel.jsx
-│   │   │   ├── DuplicatesSection.jsx
-│   │   │   ├── UnusedVariablesSection.jsx
-│   │   │   ├── OrphanTriggersSection.jsx
-│   │   │   └── index.js
-│   │   ├── filters/                   # Filter components
-│   │   │   ├── FiltersSection.jsx
-│   │   │   ├── MultiSelectFilter.jsx
-│   │   │   ├── SearchableSelect.jsx
-│   │   │   ├── ExportDropdown.jsx
-│   │   │   └── index.js
-│   │   ├── tags/                      # Tag components
-│   │   │   ├── TagsTable.jsx
-│   │   │   ├── TagDetailPanel.jsx
-│   │   │   └── index.js
-│   │   ├── overview/                  # Dashboard overview
-│   │   │   ├── OverviewSection.jsx
-│   │   │   ├── CustomTooltip.jsx
-│   │   │   └── index.js
-│   │   ├── common/                    # Reusable components
-│   │   │   ├── StatCard.jsx
-│   │   │   ├── CopyableName.jsx
-│   │   │   ├── CopyableCodeBlock.jsx
-│   │   │   └── index.js
-│   │   ├── ThemeToggle/
-│   │   ├── PrivacyPolicy/
-│   │   ├── TermsOfService/
-│   │   ├── Footer/
-│   │   └── Donation/
-│   │
-│   ├── hooks/                         # Custom React Hooks
-│   │   ├── useGTMData.js              # GTM data management
-│   │   ├── useGTMAuth.js              # Google OAuth
-│   │   ├── useFilters.js              # Filter state management
-│   │   ├── usePagination.js           # Pagination logic
-│   │   ├── useTheme.js                # Theme toggle
-│   │   └── index.js                   # Barrel export
-│   │
-│   ├── data/                          # Business Logic (Pure Functions)
-│   │   ├── gtmData.js                 # Core data orchestrator
-│   │   ├── constants.js               # Tag/Trigger/Variable type maps
-│   │   ├── cleanup/                   # Detection modules
-│   │   │   ├── duplicates.js          # Duplicate tag detection
-│   │   │   ├── unusedVariables.js     # Unused variable detection
-│   │   │   ├── orphanTriggers.js      # Orphan trigger detection
-│   │   │   └── index.js
-│   │   ├── helpers/                   # Utility functions
-│   │   │   ├── filterHelpers.js       # Unique value extraction
-│   │   │   ├── search.js              # Global search
-│   │   │   ├── variableResolver.js    # Variable resolution
-│   │   │   └── index.js
-│   │   └── index.js
-│   │
-│   ├── utils/                         # Generic Utilities
-│   │   ├── security.js                # XSS protection, validation
-│   │   ├── csvExport.js               # CSV export logic
-│   │   ├── indexedDB.js               # Local storage
-│   │   ├── tagHelpers.js              # Tag utilities
-│   │   └── index.js
-│   │
-│   ├── constants/                     # App-wide constants
-│   │   ├── chartColors.js
-│   │   ├── securityPatterns.js
-│   │   └── index.js
-│   │
-│   ├── App.jsx                        # Main app (routing)
-│   ├── main.jsx                       # Entry point
-│   └── index.css                      # Global styles + Theme
-│
-├── index.html                         # HTML template + CSP
-├── vite.config.js                     # Vite + PWA config
-├── vercel.json                        # Vercel deployment config
-└── package.json
+gtm-container-analyzer/
+├── src/                      # React dashboard (Vite)
+│   ├── components/           # UI: Home, overview, tags, cleanup, Compare, Live, AIChat…
+│   ├── hooks/                # useGTMData, useGTMAuth, useFilters, useTheme…
+│   ├── data/                 # Client-side GTM processing & cleanup
+│   ├── utils/                # Security, IndexedDB, CSV export
+│   └── App.jsx
+├── extension/                # Chrome extension (MV3)
+│   ├── background/           # Service worker + storage
+│   ├── content/              # capture.js, dashboard-bridge.js
+│   ├── injected/             # gtm-interceptor.js
+│   └── popup/
+├── packages/core/            # @gtm-analyzer/core — shared analysis engine
+│   └── src/
+│       ├── parser/           # analyze() → ContainerContext
+│       ├── audit/            # naming, GA4, performance, cleanup
+│       ├── analysis/         # health score, live correlation
+│       ├── compare/          # container diff
+│       └── security/         # validate + redact credentials
+├── mcp-server/               # MCP + AI HTTP server
+│   └── src/
+│       ├── index-stdio.ts    # IDE transport
+│       ├── index-http.ts     # SSE MCP + /api/chat + static SPA
+│       ├── tools/registry.ts
+│       ├── ai/               # agent + prompts
+│       └── security/         # CORS, rate limit, path guard
+├── docs/                     # Architecture, MCP, extension, deployment guides
+├── public/                   # PWA assets + sample container JSON
+├── render.yaml               # Render blueprint (unified MCP + dashboard)
+└── vercel.json               # Vercel dashboard deploy
 ```
 
 ---
 
-## 🛠️ Tech Stack
+## Quick start
 
-| Technology | Purpose |
-|------------|---------|
-| **React 18** | UI Framework (Functional Components + Hooks) |
-| **Vite 5** | Build Tool & Dev Server |
-| **React Router v6** | Client-side Routing |
-| **Recharts** | Data Visualization (Pie Chart) |
-| **Lucide React** | Icon Library |
-| **IndexedDB** | Client-side Data Persistence |
-| **Google OAuth 2.0** | GTM API Authentication |
-| **vite-plugin-pwa** | Progressive Web App Support |
-| **CSS Variables** | Theming (Dark/Light) |
-| **Vercel** | Hosting & Deployment |
+### Dashboard (local)
 
----
-
-## 🔒 Security
-
-| Layer | Implementation |
-|-------|----------------|
-| **Content Security Policy** | Strict CSP headers in `index.html` |
-| **Input Validation** | `validateGTMJson()` in `security.js` |
-| **XSS Protection** | `deepSanitize()` for all inputs |
-| **File Validation** | Type, size, and name checks |
-| **OAuth Tokens** | Memory-only (never stored) |
-| **No Server Storage** | 100% client-side processing |
-
----
-
-## 📊 Pages & Views
-
-### 1. Home Page (Upload)
-- Drag & drop JSON upload
-- Connect GTM button (OAuth)
-- Privacy proof modal
-- Export help guide
-
-### 2. Dashboard (/analyze)
-- Overview stats (Tags, Triggers, Variables)
-- Tag distribution pie chart
-- Cleanup panel (Duplicates, Unused, Orphans)
-- Filters & Global search
-- Tags table with pagination
-- Tag detail side panel
-
-### 3. Tags View (/tags)
-- Full dependency tree
-- All filters available
-- CSV export
-
-### 4. Triggers View (/triggers)
-- All triggers with details
-- Filter by type & usage
-- Shows which tags use each trigger
-
-### 5. Variables View (/variables)
-- All variables with details
-- Filter by type & usage
-- Shows where each variable is used
-
----
-
-## 🧹 Cleanup Detection
-
-### Duplicate Tags
-- Detects tags with identical configuration
-- Compares: type, triggers, conditions, parameters
-- 100% exact match required
-
-### Unused Variables
-- Finds variables not referenced anywhere
-- Checks: tags, triggers, other variables
-- Shows variable content & type
-
-### Orphan Triggers
-- Finds triggers not used by any tag
-- Shows trigger conditions
-- Identifies cleanup opportunities
-
----
-
-## 🎨 Theming
-
-### Dark Theme (Default)
-| Element | Color |
-|---------|-------|
-| Background | `#0f1117` |
-| Cards | `#181b23` |
-| Primary Accent | `#38bdf8` (Cyan) |
-| Secondary | `#a78bfa` (Purple) |
-
-### Light Theme
-| Element | Color |
-|---------|-------|
-| Background | `#fafbfc` |
-| Cards | `#ffffff` |
-| Primary Accent | `#0ea5e9` |
-| Secondary | `#8b5cf6` |
-
-Toggle via sun/moon button in header.
-
----
-
-## 📝 Key Modules
-
-### Hooks
-
-```javascript
-// GTM data management
-useGTMData()
-  → processedTags, stats, duplicateTags, unusedVariables, orphanTriggers
-
-// Google OAuth
-useGTMAuth()
-  → login, logout, accounts, fetchContainers, fetchContainerVersion
-
-// Filter state
-useFilters(processedTags)
-  → searchQuery, typeFilter, filteredTags, resetAllFilters
-
-// Theme toggle
-useTheme()
-  → theme, toggleTheme
-```
-
-### Data Functions
-
-```javascript
-// Core processing
-processGTMData(data)              // Parse & transform GTM JSON
-getStats()                        // Get tag/trigger/variable counts
-getContainerInfo()                // Get container metadata
-
-// Cleanup detection
-detectDuplicateTags()             // Find duplicate tags
-detectUnusedVariables()           // Find unused variables
-detectOrphanTriggers()            // Find orphan triggers
-
-// Search & filters
-globalSearch(query)               // Deep search all data
-getUniqueTagTypes()               // Get tag types for filter
-getAllConditionTypes()            // Get condition types
-
-// Variable resolution
-resolveVariableWithContext()      // Resolve with trigger context
-resolveVariable()                 // Simple resolution
-```
-
----
-
-## 📱 Responsive Design
-
-| Breakpoint | Devices |
-|------------|---------|
-| 1400px+ | Large Desktop |
-| 1024-1399px | Desktop |
-| 768-1023px | Tablet |
-| 600-767px | Large Phone |
-| 480-599px | Phone |
-| <480px | Small Phone |
-
-PWA installable on desktop and mobile.
-
----
-
-## 📥 CSV Export
-
-| Option | Description |
-|--------|-------------|
-| **Export All** | All tags regardless of filters |
-| **Export Filtered** | Only currently filtered tags |
-
-**Columns:** Tag Name, Type, Status, Trigger, Conditions, Info, Parameters
-
----
-
-## 🔒 Privacy
-
-- **100% Client-side** - No data sent to any server
-- **Local Storage** - Data stored in browser's IndexedDB
-- **No Analytics** - No tracking or telemetry
-- **OAuth Tokens** - Stored in memory only, never persisted
-- **Open Source** - Audit the code yourself
-
----
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
 ```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel
+npm install
+npm run dev
 ```
 
-### Manual Build
+Open http://localhost:5173
+
+Copy `.env.example` → `.env` and set:
+
 ```bash
-npm run build
-# Output in dist/ folder
+VITE_GOOGLE_CLIENT_ID=your_google_oauth_client_id
+VITE_AI_SERVER_URL=http://localhost:3001
 ```
 
----
+### Core + MCP server (local)
 
-## 📄 License
+```bash
+# Build shared engine
+cd packages/core && npm install && npm run build
 
-MIT License
+# Build & run MCP HTTP (AI chat + remote MCP)
+cd ../../mcp-server && npm install && npm run build
+npm run start:http
+```
 
----
+MCP HTTP defaults to http://localhost:3001  
+Stdio entry: `node mcp-server/dist/index-stdio.js`
 
-## 🤝 Contributing
+Create `mcp-server/.env` (see `mcp-server/.env.example`). **`GEMINI_API_KEY` is required** at startup.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing`)
-5. Open a Pull Request
+### Chrome extension
 
----
+1. Chrome → `chrome://extensions/` → Developer mode
+2. **Load unpacked** → select the `extension/` folder
+3. Browse a site with GTM → open the popup → **Analyze** to open `/live`
 
-## 📊 Code Quality
-
-| Metric | Value |
-|--------|-------|
-| Components | 18 feature folders |
-| Hooks | 5 custom hooks |
-| Data Modules | 8 files |
-| Avg File Size | 200-400 lines |
-| Architecture | Feature-Based Modular |
-| Maintainability | ⭐⭐⭐⭐⭐ |
+Details: [`extension/README.md`](extension/README.md) · [`docs/extension.md`](docs/extension.md)
 
 ---
 
-**Made with 💙 for GTM community**
-# gmt-container-analyzer
+## Connect MCP (Cursor)
+
+### Remote (hosted)
+
+```json
+{
+  "mcpServers": {
+    "gtm-container-analyzer": {
+      "url": "https://gtm-container-analyzer-mcp.onrender.com/mcp"
+    }
+  }
+}
+```
+
+### Local stdio
+
+```json
+{
+  "mcpServers": {
+    "gtm-container-analyzer-local": {
+      "command": "node",
+      "args": [
+        "/ABSOLUTE/PATH/gtm-container-analyzer/mcp-server/dist/index-stdio.js",
+        "/ABSOLUTE/PATH/gtm-container-analyzer"
+      ]
+    }
+  }
+}
+```
+
+Full client matrix (Claude, Codex, VS Code, etc.): [`docs/mcp-server-guide.md`](docs/mcp-server-guide.md)
+
+---
+
+## Tech stack
+
+| Layer | Stack |
+|-------|--------|
+| Dashboard | React 18, Vite 5, React Router, Recharts, IndexedDB (localforage), PWA |
+| Extension | Chrome Manifest V3, content scripts, service worker |
+| Core | TypeScript, Zod |
+| MCP / AI | Express, MCP SDK, Gemini / OpenAI / Groq / OpenRouter / Ollama |
+| Auth | Google OAuth 2.0 + Tag Manager API (readonly) |
+| Hosting | Vercel (dashboard), Render (MCP + AI + unified SPA) |
+
+---
+
+## Security & privacy
+
+- Dashboard analysis is **client-side**; container JSON is stored in **IndexedDB**
+- OAuth tokens stay in memory (not persisted)
+- Extension capture stays in **browser storage** (no remote upload of live events)
+- AI chat sends container context to your configured AI server (required for answers)
+- MCP HTTP: origin allowlist, rate limits, path sandbox (stdio), credential redaction in logs
+- Input validation & XSS-oriented sanitization on uploads
+
+---
+
+## Deployment
+
+- **Dashboard (Vercel):** `npm run build` → deploy `dist/` (see `vercel.json`)
+- **MCP + AI (Render):** use `render.yaml` or build core → mcp-server → `node mcp-server/dist/index-http.js`
+- Free-tier tip: ping `/health` periodically so the service stays awake
+
+See [`docs/deployment.md`](docs/deployment.md)
+
+---
+
+## Documentation
+
+| Doc | Topic |
+|-----|--------|
+| [`docs/architecture.md`](docs/architecture.md) | System topology & flows |
+| [`docs/mcp-server-guide.md`](docs/mcp-server-guide.md) | MCP client setup |
+| [`docs/mcp-gtm-oauth-flow.md`](docs/mcp-gtm-oauth-flow.md) | OAuth → container sync |
+| [`docs/ai-agent-design.md`](docs/ai-agent-design.md) | Agent / tool loop |
+| [`docs/extension.md`](docs/extension.md) | Live capture bridge |
+| [`docs/GTM-API-Setup.md`](docs/GTM-API-Setup.md) | Google API credentials |
+
+---
+
+## License
+
+MIT
+
+---
+
+**Built for people who work with GTM** — analysts, marketers, freelancers, and teams who want clarity without endless tab-switching.
