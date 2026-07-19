@@ -5,6 +5,19 @@ This guide explains how to connect the GTM Container Analyzer Model Context Prot
 2. **Local SSE Mode (HTTP)**: Testing your local Express HTTP server over Server-Sent Events.
 3. **Hosted Live SSE Mode (Cloud)**: Connecting to your production-deployed cloud service.
 
+## MCP Client Support Matrix
+
+Here is a summary of how our GTM Container Analyzer MCP Server integrates across different popular IDEs and clients:
+
+| Client / IDE | Local Stdio (Command) | Remote/Local SSE (HTTP) | Configuration Method / File Path | Remote Server Name |
+| :--- | :---: | :---: | :--- | :--- |
+| **Cursor** | ✅ Yes | ✅ Yes | UI: **Settings > Features > MCP** | `gtm-container-analyzer-remote` |
+| **Claude Desktop** | ✅ Yes | ✅ Yes | `~/Library/Application Support/Claude/claude_desktop_config.json` | `gtm-analyzer-remote` |
+| **VS Code (Cline)** | ✅ Yes | ✅ Yes | `.../globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json` | `gtm-analyzer-remote` |
+| **VS Code (Roo Code)** | ✅ Yes | ✅ Yes | `.../globalStorage/rooloodev.roo-cline/settings/cline_mcp_settings.json` | `gtm-analyzer-remote` |
+| **Windsurf** | ✅ Yes | ✅ Yes | `~/.codeium/windsurf/mcp_config.json` | `gtm-analyzer-remote` |
+| **Zed** | ✅ Yes | ⚠️ Proxy Required | `~/.config/zed/settings.json` *(Uses `mcp-remote` proxy bridge)* | `gtm-analyzer-remote` |
+
 ---
 
 ## 1. Local Stdio Integration (Command Mode)
