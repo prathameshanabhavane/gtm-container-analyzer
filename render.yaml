@@ -19,6 +19,12 @@ services:
       - key: ALLOWED_ORIGINS
         value: https://gtmcontaineranalyzer.com,http://localhost:5173
       - key: VITE_AI_SERVER_URL
-        sync: false
+        sync: false # Render will prompt for your live Render URL (e.g. https://your-app.onrender.com)
       - key: VITE_GOOGLE_CLIENT_ID
-        sync: false
+        sync: false # (Optional) Enter your Google Cloud OAuth Client ID for live GTM API syncing
+      - key: OPENAI_API_KEY
+        sync: false # (Optional) Enter your OpenAI API Key for GPT-4o-mini audits
+      - key: GROQ_API_KEY
+        sync: false # (Optional) Enter your Groq API Key
+      - key: OPENROUTER_API_KEY
+        sync: false # (Optional) Enter your OpenRouter API Key
