@@ -123,6 +123,70 @@ Once your unified deployment is active (e.g. at `https://YOUR-APP-NAME.onrender.
    ```
 3. Restart the Claude Desktop application.
 
+### Step 3.4: Connecting to VS Code (via Cline / Roo Code)
+If you use popular AI coding extensions in VS Code like **Cline** or **Roo Code**, they support remote SSE connections directly via their local settings file.
+
+1. Open your extension's MCP configuration settings JSON file:
+   - **Cline**: `~/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`
+   - **Roo Code**: `~/Library/Application Support/Code/User/globalStorage/rooloodev.roo-cline/settings/cline_mcp_settings.json`
+2. Add the server definition inside the `mcpServers` object:
+   ```json
+   {
+     "mcpServers": {
+       "gtm-analyzer-remote": {
+         "url": "https://YOUR-APP-NAME.onrender.com/mcp",
+         "disabled": false
+       }
+     }
+   }
+   ```
+3. Save the file. The extension will automatically connect to your live Render endpoint.
+
+### Step 3.5: Connecting to Windsurf IDE (Remote SSE)
+Windsurf supports MCP servers natively.
+
+1. Open the configuration file:
+   - **macOS / Linux**: `~/.codeium/windsurf/mcp_config.json`
+   - **Windows**: `%USERPROFILE%\.codeium\windsurf\mcp_config.json`
+   *(Tip: You can also open this via Windsurf settings under **Settings** > **Cascade** > **MCP Servers** > **View Raw Config**)*.
+2. Add the following config to `mcpServers`:
+   ```json
+   {
+     "mcpServers": {
+       "gtm-analyzer-remote": {
+         "serverUrl": "https://YOUR-APP-NAME.onrender.com/mcp",
+         "transport": "sse"
+       }
+     }
+   }
+   ```
+3. Completely **restart Windsurf** for the configuration to take effect.
+
+### Step 3.6: Connecting to Zed Editor (Remote SSE)
+Because Zed expects stdio frames, it does not support raw SSE URLs natively in `settings.json`. Instead, use the global NPM `mcp-remote` proxy bridge.
+
+1. Open your terminal and install `mcp-remote` globally:
+   ```bash
+   npm install -g mcp-remote
+   ```
+2. Open Zed settings (`zed: open settings` via the Command Palette / `Cmd+Shift+P`).
+3. Add the server under `context_servers` using the proxy bridge command:
+   ```json
+   {
+     "context_servers": {
+       "gtm-analyzer-remote": {
+         "command": "npx",
+         "args": [
+           "-y",
+           "mcp-remote",
+           "https://YOUR-APP-NAME.onrender.com/mcp"
+         ]
+       }
+     }
+   }
+   ```
+4. Save the file. Verify connection status in Zed under **Settings** > **AI** > **MCP Servers**.
+
 ---
 
 ## 4. Example Prompts to Try in your IDE
