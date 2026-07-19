@@ -12,7 +12,7 @@
 //   - true  = Development mode (localhost:5173)
 //   - false = Production mode (gtmcontaineranalyzer.com)
 // ============================================
-const DEV_MODE = true;
+const DEV_MODE = false;
 
 // URLs based on environment
 const URLS = {
