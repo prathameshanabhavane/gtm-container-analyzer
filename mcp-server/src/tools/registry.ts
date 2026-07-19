@@ -32,6 +32,21 @@ import { join } from 'node:path';
 import { homedir } from 'node:os';
 
 /**
+ * Dynamically resolves the frontend dashboard URL based on the environment
+ */
+function getDashboardUrl(): string {
+  if (process.env.RENDER_EXTERNAL_URL) {
+    return process.env.RENDER_EXTERNAL_URL;
+  }
+  if (process.env.ALLOWED_ORIGINS) {
+    const origins = process.env.ALLOWED_ORIGINS.split(',');
+    const prodOrigin = origins.find(o => o.includes('onrender.com') || o.includes('gtmcontaineranalyzer.com'));
+    if (prodOrigin) return prodOrigin.trim();
+  }
+  return 'http://localhost:5173';
+}
+
+/**
  * Standard list of MCP Tool definitions (exposing schemas to LLMs)
  */
 export const mcpToolsList = [
@@ -205,14 +220,15 @@ export const mcpToolsList = [
 function loadSyncedContainer(): any {
   const syncPath = join(homedir(), '.gtm-active-container.json');
   if (!existsSync(syncPath)) {
+    const dashboardUrl = getDashboardUrl();
     throw new Error(
       `⚡ **GTM Container Analyzer: Active GTM Container Required**\n\n` +
       `To start auditing, you need to connect your Google Tag Manager container. Please choose one of the options below:\n\n` +
       `### 🔹 Option 1: Connect via Google OAuth (Recommended)\n` +
       `Click the button below to connect your container securely using Google OAuth:\n\n` +
-      `[![](https://img.shields.io/badge/Connect%20Google%20GTM-4285F4?style=for-the-badge&logo=google&logoColor=white)](http://localhost:5173)\n\n` +
+      `[![](https://img.shields.io/badge/Connect%20Google%20GTM-4285F4?style=for-the-badge&logo=google&logoColor=white)](${dashboardUrl})\n\n` +
       `**Simple 3-Step Setup:**\n` +
-      `1. Click the **Connect Google GTM** button above (or open \`http://localhost:5173\` in your browser).\n` +
+      `1. Click the **Connect Google GTM** button above (or open \`${dashboardUrl}\` in your browser).\n` +
       `2. Log in securely with Google and select your GTM container.\n` +
       `3. Return to this chat and ask any auditing or GA4 questions!\n\n` +
       `### 🔹 Option 2: Audit a local JSON file directly\n` +
@@ -445,6 +461,7 @@ export async function executeMcpTool(name: string, args: any): Promise<any> {
         : `🔴 **Not Connected:** No active GTM container is currently synced.`;
 
       logToolCall(name, {}, true);
+      const dashboardUrl = getDashboardUrl();
       return {
         isConnected,
         activeContainerId: activeContainer?.containerVersion?.container?.publicId || null,
@@ -453,9 +470,9 @@ export async function executeMcpTool(name: string, args: any): Promise<any> {
           `To connect a new container or switch the active one, please choose one of the options below:\n\n` +
           `### 🔹 Option 1: Connect via Google OAuth (Recommended)\n` +
           `Click the button below to connect your container securely using Google OAuth:\n\n` +
-          `[![](https://img.shields.io/badge/Connect%20Google%20GTM-4285F4?style=for-the-badge&logo=google&logoColor=white)](http://localhost:5173)\n\n` +
+          `[![](https://img.shields.io/badge/Connect%20Google%20GTM-4285F4?style=for-the-badge&logo=google&logoColor=white)](${dashboardUrl})\n\n` +
           `**Simple 3-Step Setup:**\n` +
-          `1. Click the **Connect Google GTM** button above (or open \`http://localhost:5173\` in your browser).\n` +
+          `1. Click the **Connect Google GTM** button above (or open \`${dashboardUrl}\` in your browser).\n` +
           `2. Log in securely with Google and select your GTM container.\n` +
           `3. Return to this chat and ask any auditing or GA4 questions!\n\n` +
           `### 🔹 Option 2: Audit a local JSON file directly\n` +
