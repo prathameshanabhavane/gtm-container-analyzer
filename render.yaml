@@ -5,7 +5,7 @@
 
 services:
   - type: web
-    name: gtm-container-analyzer-mcp
+    name: gtm-container-analyzer
     runtime: node
     buildCommand: npm ci --include=dev && npm run build && cd packages/core && npm ci --include=dev && npm run build && cd ../../mcp-server && npm ci --include=dev && npm run build
     startCommand: node mcp-server/dist/index-http.js

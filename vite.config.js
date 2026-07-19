@@ -9,6 +9,13 @@ const pwaConfig = {
   workbox: {
     globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
     cleanupOutdatedCaches: true,
+    navigateFallbackDenylist: [
+      /^\/api/,
+      /^\/mcp/,
+      /^\/sse/,
+      /^\/messages/,
+      /^\/health/
+    ],
     // Cache Google Fonts for offline use
     runtimeCaching: [
       {
