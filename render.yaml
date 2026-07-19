@@ -7,7 +7,7 @@ services:
   - type: web
     name: gtm-container-analyzer-mcp
     runtime: node
-    buildCommand: npm ci && npm run build && cd packages/core && npm ci && npm run build && cd ../../mcp-server && npm ci && npm run build
+    buildCommand: npm ci --include=dev && npm run build && cd packages/core && npm ci --include=dev && npm run build && cd ../../mcp-server && npm ci --include=dev && npm run build
     startCommand: node mcp-server/dist/index-http.js
     envVars:
       - key: GEMINI_API_KEY

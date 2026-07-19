@@ -62,7 +62,7 @@ We have provided a preconfigured [render.yaml](file:///Users/prathameshanabhavan
 4. Set the following configurations:
    * **Name**: `gtm-container-analyzer-mcp`
    * **Runtime**: `Node`
-   * **Build Command**: `npm ci && npm run build && cd packages/core && npm ci && npm run build && cd ../../mcp-server && npm ci && npm run build`
+   * **Build Command**: `npm ci --include=dev && npm run build && cd packages/core && npm ci --include=dev && npm run build && cd ../../mcp-server && npm ci --include=dev && npm run build`
    * **Start Command**: `node mcp-server/dist/index-http.js`
 5. Add the following **Environment Variables** under the service settings:
    * `GEMINI_API_KEY`: *(Your Gemini API Key)*
