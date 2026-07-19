@@ -17,6 +17,8 @@ Here is a summary of how our GTM Container Analyzer MCP Server integrates across
 | **VS Code (Roo Code)** | ✅ Yes | ✅ Yes | `.../globalStorage/rooloodev.roo-cline/settings/cline_mcp_settings.json` | `gtm-analyzer-remote` |
 | **Windsurf** | ✅ Yes | ✅ Yes | `~/.codeium/windsurf/mcp_config.json` | `gtm-analyzer-remote` |
 | **Zed** | ✅ Yes | ⚠️ Proxy Required | `~/.config/zed/settings.json` *(Uses `mcp-remote` proxy bridge)* | `gtm-analyzer-remote` |
+| **Codex CLI** | ✅ Yes | ✅ Yes | CLI or `~/.codex/config.toml` | `gtm-analyzer-remote` |
+| **Antigravity SDK** | ✅ Yes | ✅ Yes | Python agent code: `types.McpSseServer` / `McpStdioServer` | Registered dynamically |
 
 ---
 
@@ -64,6 +66,43 @@ When running locally, the MCP server communicates with your IDE via standard inp
    }
    ```
 3. Restart the Claude Desktop application.
+
+### Step 1.4: Connecting to Codex CLI (Local Stdio)
+1. Open your global Codex configuration file: `~/.codex/config.toml` (or `.codex/config.toml` in your project root).
+2. Register the local server definition under `mcpServers`:
+   ```toml
+   [mcpServers]
+   [mcpServers.gtm-analyzer-local]
+   command = "node"
+   args = [
+     "/Users/YOUR_USERNAME/YOUR_PATH/gtm-container-analyzer/mcp-server/dist/index-stdio.js",
+     "/Users/YOUR_USERNAME/YOUR_PATH/gtm-container-analyzer"
+   ]
+   ```
+
+### Step 1.5: Connecting to Google Antigravity SDK (Local Stdio)
+If you are building custom autonomous agents using the Google Antigravity (AGY) SDK, you can register the local stdio subprocess:
+
+1. Import the SDK modules:
+   ```python
+   from google.antigravity import Agent, LocalAgentConfig, types
+
+   mcp_servers = [
+       types.McpStdioServer(
+           command="node",
+           args=[
+               "/Users/YOUR_USERNAME/YOUR_PATH/gtm-container-analyzer/mcp-server/dist/index-stdio.js",
+               "/Users/YOUR_USERNAME/YOUR_PATH/gtm-container-analyzer"
+           ]
+       )
+   ]
+
+   config = LocalAgentConfig(mcp_servers=mcp_servers)
+
+   async with Agent(config) as agent:
+       response = await agent.chat("Analyze the naming conventions inside ./sample-container.json")
+       print(await response.text())
+   ```
 
 ---
 
@@ -199,6 +238,44 @@ Because Zed expects stdio frames, it does not support raw SSE URLs natively in `
    }
    ```
 4. Save the file. Verify connection status in Zed under **Settings** > **AI** > **MCP Servers**.
+
+### Step 3.7: Connecting to Codex (Remote SSE)
+You can connect Codex to your live Render endpoint using one of two methods:
+
+#### Method A: Direct File Configuration (Recommended)
+1. Open your global Codex configuration file in a text editor: `~/.codex/config.toml` (or `.codex/config.toml` in your project root).
+2. Register the remote server by adding this to the `[mcpServers]` block:
+   ```toml
+   [mcpServers]
+   [mcpServers.gtm-analyzer-remote]
+   url = "https://gtm-container-analyzer-mcp.onrender.com/mcp"
+   ```
+3. Save the file.
+
+#### Method B: Codex CLI Command (Fallback)
+If you have the `codex` command-line tool installed, register it directly via terminal:
+```bash
+codex mcp add gtm-analyzer-remote --url https://gtm-container-analyzer-mcp.onrender.com/mcp
+```
+
+### Step 3.8: Connecting to Google Antigravity SDK (Remote SSE)
+To connect your custom autonomous agent built with the Google Antigravity (AGY) SDK to the live Render endpoint, declare the SSE server using `types.McpSseServer`:
+
+```python
+from google.antigravity import Agent, LocalAgentConfig, types
+
+mcp_servers = [
+    types.McpSseServer(
+        url="https://gtm-container-analyzer-mcp.onrender.com/mcp"
+    )
+]
+
+config = LocalAgentConfig(mcp_servers=mcp_servers)
+
+async with Agent(config) as agent:
+    response = await agent.chat("Analyze the GTM container at ./sample-container.json")
+    print(await response.text())
+```
 
 ---
 
