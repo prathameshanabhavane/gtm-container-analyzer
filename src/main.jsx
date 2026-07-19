@@ -13,24 +13,9 @@ const isProduction = import.meta.env.PROD
 // Google OAuth Client ID from environment variable
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
-// Analytics component that only loads in production (avoids CSP eval errors in dev)
+// Analytics loader disabled on non-Vercel deployments
 const AnalyticsLoader = () => {
-  const [AnalyticsComponent, setAnalyticsComponent] = React.useState(null)
-  
-  React.useEffect(() => {
-    if (isProduction) {
-      // Dynamic import only in production to avoid CSP unsafe-eval errors in development
-      import('@vercel/analytics/react').then((module) => {
-        setAnalyticsComponent(() => module.Analytics)
-      }).catch(() => {
-        // Silently fail if Analytics can't be loaded
-        console.warn('Vercel Analytics could not be loaded')
-      })
-    }
-  }, [])
-  
-  if (!AnalyticsComponent) return null
-  return <AnalyticsComponent />
+  return null
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
