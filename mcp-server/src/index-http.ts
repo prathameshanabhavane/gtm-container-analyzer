@@ -105,11 +105,15 @@ mcpServer.setRequestHandler(CallToolRequestSchema, async (request) => {
 // Configure Express Application
 const app = express();
 
-// Set basic security headers with Helmet (disabling CSP directives that block local dashboard execution)
+// Set basic security headers with Helmet (disabling CSP directives that block local dashboard execution).
+// COOP must be "same-origin-allow-popups" so Google OAuth (useGoogleLogin popup) can return the token
+// to the opener. Helmet's default "same-origin" isolates the popup and login appears to succeed
+// with zero follow-up Network calls to tagmanager.googleapis.com (same as vercel.json).
 app.use(
   helmet({
     contentSecurityPolicy: false,
     crossOriginEmbedderPolicy: false,
+    crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
   })
 );
 
